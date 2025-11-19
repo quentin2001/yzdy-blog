@@ -1,6 +1,6 @@
-# Litos
+# yzdy-blog
 
-A modern blog theme built with Astro.js and designed for developers.
+一个简介美观的个人博客fork from litos
 
 ## Features
 
