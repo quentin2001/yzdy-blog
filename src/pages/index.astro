@@ -22,30 +22,40 @@ if (hasPinnedPosts) {
 
 <Layout title="Readme" description={SITE.description}>
   <div class="relative z-[1]">
-    <div class="py-8 pb-10 px-6 sm:px-8">
-      <h1 class="flex flex-col gap-2">
-        <span class="text-4xl sm:text-5xl tracking-tight"> Litos </span>
-        <span class="text-muted-foreground font-light text-xl sm:text-2xl block tracking-wide text-balance">
-          A Simple & Modern Blog Theme for Astro
-        </span>
-      </h1>
-      <div class="pro text-muted-foreground text-pretty">
-        <p>
-          Litos is a simple and modern Astro blog theme, focusing on content display and reading experience. What's more, it's not just a
-          blog, but also a place to showcase your personal skills, projects, and daily life.
-        </p>
-        <p>
-          Tailwind CSS is used to achieve an elegant responsive design, and React components are integrated to provide a smooth interactive
-          experience. It supports light and dark theme switching, is responsive, has a clean style, and offers a variety of configurable
-          article display layouts.
-        </p>
-        <p>
-          This theme is inspired by <a href="https://github.com/needim" target="_blank" rel="nofollow noreferrer"> @needim</a> and redesigned
-          by <a href="https://github.com/Dnzzk2" target="_blank" rel="nofollow noreferrer"> @Dnzzk2</a> based on Astro.
-        </p>
+    <!-- 使用 grid 做真正的左右布局，彻底解决覆盖问题 -->
+    <div class="relative py-8 pb-10 px-6 sm:px-8 grid grid-cols-1 md:grid-cols-[1fr_230px] gap-8 items-start">
+      <!-- 左侧文本区 -->
+      <div class="max-w-2xl">
+        <h1 class="flex flex-col gap-2">
+          <span class="text-4xl sm:text-5xl tracking-tight">杨卓's blog</span>
+          <span class="text-muted-foreground font-light text-xl sm:text-2xl block tracking-wide text-balance">ENFJ</span>
+        </h1>
+        <div class="pro text-muted-foreground text-pretty mt-4">
+          <p>
+            Litos is a simple and modern Astro blog theme, focusing on content display and reading expon content display and reading expon
+            content display Litos is a simple and modern
+          </p>
+          <p>
+            This theme is inspired by
+            <a href="https://github.com/needim" target="_blank" rel="nofollow noreferrer">@needim</a>
+            and redesigned by
+            <a href="https://github.com/Dnzzk2" target="_blank" rel="nofollow noreferrer">@Dnzzk2</a>.
+          </p>
+        </div>
+      </div>
+
+      <!-- 右侧照片（漂浮 / 动效保持不变） -->
+      <div class="hidden md:block">
+        <img
+          src="/me.png"
+          alt="My photo"
+          class="w-full h-auto rounded-3xl shadow-2xl opacity-80 backdrop-blur-sm transition-all duration-500 hover:opacity-100 hover:scale-[1.02]"
+        />
       </div>
     </div>
+
     <SectionDivider />
+
     <div class="py-8 pb-10 px-6 sm:px-8">
       <h2 class="text-2xl sm:text-3xl tracking-tight">Posts</h2>
       <p class="text-muted-foreground mb-6 mt-1">
