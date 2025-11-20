@@ -14,13 +14,13 @@ import type {
 
 //--- Readme Page Config ---
 export const SITE: Site = {
-  title: 'Litos',
+  title: 'YZDY',
   description:
-    'Litos is a modern blogging theme built on Astro.js, designed for developers. It supports multiple post layouts, photo displays, project displays, and more, providing an elegant user experience and powerful customization capabilities.',
+    'YZDY is a modern blogging theme built on Astro.js, designed for developers. It supports multiple post layouts, photo displays, project displays, and more, providing an elegant user experience and powerful customization capabilities.',
   website: 'https://litos.vercel.app/',
   lang: 'en',
   base: '/',
-  author: 'Dnzzk2',
+  author: 'Quentin',
   ogImage: '/og-image.webp',
 }
 
@@ -32,6 +32,10 @@ export const HEADER_LINKS: Link[] = [
   {
     name: 'Projects',
     url: '/projects',
+  },
+  {
+    name: 'Tags',
+    url: '/tags',
   },
   {
     name: 'Photos',
@@ -179,7 +183,7 @@ export const SKILLSSHOWCASE_CONFIG: SkillsShowcaseConfig = {
 
 export const GITHUB_CONFIG: GithubConfig = {
   ENABLED: true,
-  GITHUB_USERNAME: 'Dnzzk2',
+  GITHUB_USERNAME: 'quentin2001',
   TOOLTIP_ENABLED: true,
 }
 
@@ -216,7 +220,7 @@ export const POSTS_CONFIG: PostConfig = {
 }
 
 export const COMMENT_CONFIG: CommentConfig = {
-  enabled: true,
+  enabled: false,
   system: 'gitalk',
   gitalk: {
     clientID: import.meta.env.PUBLIC_GITHUB_CLIENT_ID,

@@ -5,6 +5,7 @@ import HeaderGradient from '~/components/theme/HeaderGradient.astro'
 import SectionDivider from '~/components/base/SectionDivider.astro'
 import HeaderLink from '~/components/base/HeaderLink.astro'
 import SearchSwitch from '~/components/base/SearchSwitch.astro'
+import FooterLink from '~/components/base/FooterLink.astro'
 import { Image } from 'astro:assets'
 import favicon from '../../public/favicon.svg'
 ---
@@ -34,7 +35,7 @@ import favicon from '../../public/favicon.svg'
       </div>
     </div>
     <div class="flex gap-2 items-center" transition:persist="header-theme-toggle">
-      <SearchSwitch />
+      <!-- <SearchSwitch />
       <a
         href="/atom.xml"
         target="_blank"
@@ -43,7 +44,7 @@ import favicon from '../../public/favicon.svg'
         title="RSS Feed"
       >
         <span class="icon-[material-symbols--rss-feed] size-5"></span>
-      </a>
+      </a> -->
       <ThemeToggle client:load />
     </div>
   </div>
