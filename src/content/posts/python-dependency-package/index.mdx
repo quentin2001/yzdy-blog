@@ -1,0 +1,216 @@
+---
+title: 'Python 依赖管理&打包概览'
+description: '从 pip 到 uv 的进化史，用现代方式管理 Python 项目依赖、虚拟环境与打包。'
+pubDate: 2025-11-23
+cover: assets/cover.png
+tags: ['python']
+recommend: true
+---
+
+# Python 依赖管理与打包：从 pip 到 uv 的进化史
+
+在 Python 项目里，依赖管理常常是最容易踩坑、但又最容易被忽略的一环。从最原始的 `pip install` 一路走到现代化工具 `uv`、`poetry`，整个生态正在快速迭代。本文尝试从一个学习者的视角，把“为什么需要它们、它们是如何解决问题的”梳理清楚，让你用起来不再迷糊。
+
+---
+
+## 1. pip 与全局环境的问题
+
+当我们运行：
+
+```bash
+pip install ABC
+```
+
+所有依赖都会进入 **全局环境**，导致：
+
+- 不同项目依赖版本冲突
+- 项目之间互相污染依赖
+
+于是我们需要虚拟环境。
+
+---
+
+## 2. venv：解决“项目之间的污染”
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+独立环境解决了冲突，但带来新的问题——依赖如何被记录？
+
+---
+
+## 3. requirements.txt：能用，但不够优雅
+
+```bash
+pip freeze > requirements.txt
+```
+
+但卸载 ABC 后，其间接依赖 EDF 仍留在 freeze 结果中。
+
+缺点：
+
+- 不能区分 direct vs indirect 依赖
+- 文件越来越脏
+
+---
+
+## 4. pyproject.toml：记录“直接依赖”
+
+```toml
+[project]
+dependencies = [
+  "ABC",
+]
+```
+
+优点：只记录 direct dependencies。
+
+但：
+
+- 项目需要通过 `pip install -e .` 才能正常开发
+- pip install . 既会打包又会安装
+
+流程仍然复杂。
+
+---
+
+## 5. pip + venv + pyproject 的完整流程
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+# 编辑 pyproject.toml
+pip install -e .
+```
+
+协作时还需要：
+
+```bash
+pip install -r requirements.txt
+```
+
+体验仍不够丝滑。
+
+---
+
+## 6. uv：现代化依赖管理工具
+
+可以把 uv 理解为对 pip + venv 的高级封装。
+
+新增依赖：
+
+```bash
+uv add ABC
+```
+
+uv 会自动处理：
+
+- 创建虚拟环境
+- 安装依赖
+- 修改 pyproject.toml
+- 写入 direct dependencies
+- 同步间接依赖
+
+协作者同步依赖：
+
+```bash
+uv sync
+```
+
+运行脚本：
+
+```bash
+uv run test.py
+```
+
+更丝滑的 Python 体验。
+
+---
+
+## 7. 安装不同 Python 版本
+
+```bash
+uv python install cpython-3.13
+uv run -p 3.13 test.py
+uv init -p 3.13
+```
+
+无需外部管理器。
+
+---
+
+## 8. 查看依赖树
+
+```bash
+uv tree
+```
+
+---
+
+## 9. 工具依赖 vs dev 依赖（以 Ruff 为例）
+
+```bash
+uv add ruff --dev
+```
+
+但由于 Ruff 是工具，更推荐：
+
+```bash
+uv remove ruff --dev
+uv tool install ruff
+```
+
+避免污染项目依赖。
+
+---
+
+## 10. 项目打包：scripts + uv build
+
+```toml
+[project.scripts]
+commandname = "scriptname:functionname"
+```
+
+构建：
+
+```bash
+uv build
+```
+
+会生成 `.whl` 文件（本质是 zip）。
+
+---
+
+## FAQ：commandname 的依赖来自哪里？它有自己的 venv 吗？
+
+### ✔ 1. commandname 运行在“安装它的环境”里
+
+- 若通过 `uv add` 安装 → 使用项目 .venv
+- 若通过 `uv tool install` 安装 → uv 为其创建独立沙盒环境
+
+### ✔ 2. whl 并不会把所有依赖“物理打包”进去
+
+它只记录 direct dependencies。
+
+### ✔ 3. uv tool install 会自动创建隔离环境
+
+这是 uv 的核心优势之一。
+
+---
+
+## 总结：为什么最终选择 uv？
+
+因为它把原本四步的流程变成：
+
+```bash
+uv add ABC
+uv sync
+uv run test.py
+uv build
+```
+
+现代化、清晰、高效。
+
+---
