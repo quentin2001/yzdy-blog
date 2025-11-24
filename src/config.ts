@@ -26,26 +26,26 @@ export const SITE: Site = {
 
 export const HEADER_LINKS: Link[] = [
   {
-    name: 'Posts',
+    name: '博客',
     url: '/posts',
   },
   {
-    name: 'Projects',
+    name: '项目',
     url: '/projects',
   },
   {
-    name: 'Tags',
+    name: '标签',
     url: '/tags',
   },
   {
-    name: 'Photos',
+    name: '摄影',
     url: '/photos',
   },
 ]
 
 export const FOOTER_LINKS: Link[] = [
   {
-    name: 'Readme',
+    name: 'space',
     url: '/',
   },
   {
@@ -190,32 +190,32 @@ export const GITHUB_CONFIG: GithubConfig = {
 //--- Posts Page Config ---
 export const POSTS_CONFIG: PostConfig = {
   title: 'Posts',
-  description: 'Posts by Dnzzk2',
-  introduce: 'Here, I will share the usage instructions for this theme to help you quickly use it.',
-  author: 'Dnzzk2',
+  description: 'Posts by Quentin',
+  introduce: '我在这里存放笔记，多是关于AI的，都是我学习及实践的总结；请尽情翻阅',
+  author: 'Quentin',
   homePageConfig: {
     size: 5,
-    type: 'compact',
+    type: 'time-line',
   },
   postPageConfig: {
     size: 10,
     type: 'image',
-    coverLayout: 'right',
+    coverLayout: 'left',
   },
   tagsPageConfig: {
     size: 10,
     type: 'time-line',
   },
   ogImageUseCover: false,
-  postType: 'metaOnly',
+  postType: 'coverTop',
   imageDarkenInDark: true,
   readMoreText: 'Read more',
-  prevPageText: 'Previous',
-  nextPageText: 'Next',
-  tocText: 'On this page',
-  backToPostsText: 'Back to Posts',
-  nextPostText: 'Next Post',
-  prevPostText: 'Previous Post',
+  prevPageText: '上一页',
+  nextPageText: '下一页',
+  tocText: '目录 / 大纲',
+  backToPostsText: '返回博客首页',
+  nextPostText: '下一篇',
+  prevPostText: '上一篇',
   recommendText: 'REC',
 }
 
@@ -246,7 +246,7 @@ export const TAGS_CONFIG: TagsConfig = {
 export const PROJECTS_CONFIG: ProjectConfig = {
   title: 'Projects',
   description: 'The examples of my projects.',
-  introduce: 'The examples of my projects.',
+  introduce: '这里是我的项目，可以看到我做了些什么东西 with AI',
 }
 
 export const PHOTOS_CONFIG: PhotosConfig = {
