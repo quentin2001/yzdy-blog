@@ -240,7 +240,7 @@ export const COMMENT_CONFIG: CommentConfig = {
 export const TAGS_CONFIG: TagsConfig = {
   title: 'Tags',
   description: 'All tags of Posts',
-  introduce: 'All the tags for posts are here, you can click to filter them.',
+  introduce: '这里是所有博客的tag, 你可以点击来过滤某tag下的博客~',
 }
 
 export const PROJECTS_CONFIG: ProjectConfig = {
@@ -252,7 +252,7 @@ export const PROJECTS_CONFIG: ProjectConfig = {
 export const PHOTOS_CONFIG: PhotosConfig = {
   title: 'Photos',
   description: 'Here I will record some photos taken in daily life.',
-  introduce: 'Here I will record some photos taken in daily life.',
+  introduce: '这里是我的摄影作品，它们记录着我的生活.',
 }
 
 export const PhotosList: PhotoData[] = [

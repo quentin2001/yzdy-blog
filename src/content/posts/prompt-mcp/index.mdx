@@ -1,0 +1,82 @@
+---
+title: 串讲LLM、prompt、Agent、Function Calling、MCP
+description: '我讲从示例、原理到工程架构全面解析 Agent 的感知、记忆、工具与推理能力，带你重新理解“智能体”的真正边界。'
+pubDate: 2025-11-22
+cover: assets/cover.png
+tags: ['AI', 'Agent', 'LLM', 'MCP', 'Prompt']
+recommend: true
+---
+
+user Prompt：聊天内容
+system Prompt：AI的角色、性格、背景知识、语气
+
+总之只要不是用户直接说出来的内容都可以放进system Prompt里面，每次聊天的时候，都把system Prompt放在开头，
+然后跟用户输入的 Prompt 一起传给模型，这样模型就会记住之前的对话，从而生成更符合上下文的回答。
+system prompt往往是系统预设的，用户不能随便更改但通常来说网站会提供一些设置，比如gpt里面有一个叫做customize chatgpt
+的功能，用户可以在里面写下自己的偏好，这些偏好就会变成system prompt的一部分
+不过即使人设设定再完美说到底还是一个聊天机器人，你问他一个问题他最多告诉你答案或者告诉你怎么做，但实际动手的还是你自己
+那么能不能让AI自己去完成任务呢，第一个做出尝试的是一个开源项目AutoGPT，它是本地运行的一个小程序，如果想让AutoGPT帮你管理
+电脑里的文件，那你得先写好一些文件的管理函数，比如说list_files用来列目录，read_file用来读文件，然后你把这些函数以及它们的功能描述
+使用方法注册到AutoGPT中，AutoGPT会根据这些信息生成一个system Prompt，告诉AI模型用户给了哪些工具，它们都是干什么的，以及
+AI如果想使用它们应该返回什么样的格式（“我要调用+工具名”），最后把这个system prompt连同用户的请求（User prompt）比如“帮我找一下CS的安装地址”一起传给OpenAI的GPT模型，
+如果模型够聪明就会返回一个调用某个函数的信息，AutoGPT进行解析之后就可以调用对应的函数了，然后再把结果丢回给AI，AI再根据函数调用
+的结果，决定下一步应该做什么操作，这个过程就这样反复，直到任务完成为止，人们把AutoGPT这种负责在模型、工具和最终用户之间传话的程序
+就叫做AI Agent，而那些提供给AI调用的函数或服务就叫做Agent Tools。不过这个架构还有一个小问题，虽然我们在system prompt里面写清楚了
+AI应该用什么格式返回，但AI模型说到底是一个概率模型还是有可能返回格式不对的内容，为了处理这些不听话的情况，很多AI Agent会在发现AI
+返回的格式不对时，自动进行重试，一次不行就来两次，现在市面上很多知名的Agent比如Cline仍然采用的是这种方式，但这种反复的重试总归
+让人觉得不太靠谱，于是大模型厂商开始出手了，纷纷出了一个叫做Function Calling的新功能，这个功能的核心思想就是统一格式规范描述
+回到之前找CS安装地址的问题，我们通过system prompt告诉AI有哪些工具以及返回格式，但是这些描述都是用自然语言随意写的
+Function Calling则对这些描述进行了标准化，将工具描述和返回格式都用JSON描述，这样AI就可以根据JSON的格式进行解析，从而实现功能调用。
+
+```json
+"tools": [
+    {
+      "name": "get_install_url",
+      "description": "Get the installation URL of a software",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "software": {
+            "type": "string",
+            "description": "The name of the software"
+          }
+        },
+        "required": ["software"]
+      }
+    }
+]
+```
+
+然后System prompt中的格式定义也可以删掉了，这样一来所有的工具描述都放在相同的地方，所有工具描述也都依照相同的格式
+AI使用工具时的回复也都依照相同的格式
+
+```json
+"tool_calls": [
+    {
+      "id": "call_123",
+      "type": "function",
+      "function": {
+        "name": "get_install_url",
+        "arguments": "{\"software\":\"CS\"}"
+      }
+    }
+]
+```
+
+于是人们就能更加有针对性的训练AI模型，让他理解这种调用的场景
+甚至在这种情况下如果AI生成了错误的回复，因为回复的格式是规定的，AI服务器端自己就可以检测到并且进行重试，用户根本感觉不到
+不仅降低了用户端的开发难度，也节省了用户端重试带来的Token开销，正是由这些好处，现在越来越多的AI Agent开始从system Prompt转向
+Function Calling，但Function Calling也有自己的问题，就是没有统一的标准，每家大厂的API定义都不一样而且很多开源模型还不支持Function Calling
+而且很多开源模型还不支持Function Calling，所以真的要写一个跨模型通用的AI Agent其实还挺麻烦的，因此
+system prompt和Function Calling这两种方式现在市面上是并存的，以上我们讲的都是AI Agent和AI模型之间的通信方式
+接下来我们看另一边，AI Agent是怎么和Agent Tools来进行通信的？最简单的做法是把AI Agent和Agent Tool写在同一个程序里
+直接函数调用搞定，这也是大多数Agent的做法，但是后来人们逐渐发现，有些Tool的功能其实挺通用的，比如说一个浏览网页的工具可能多个
+Agent都需要，那我不能在每个Agent里面都拷贝一份相同的代码吧，太麻烦了，也不优雅，于是大家想了一个办法，把Tool变成服务统一的托管
+让所有的Agent都来调用这就是MCP，MCP是一个通信协议，专门用来规范Agent和Tool服务之间是怎么交互的，运行Tool的服务叫做MCP server
+调用它的Agent叫做MCP Client，MCP规定了MCP server如何和MCP Client通信，以及MCP Server要提供哪些接口，比如说用来查询MCP server
+中有哪些Tool、Tool的功能、描述需要的参数、格式等等的接口，除了普通的Tool这种函数调用的形式MCP Server也可以直接提供数据
+提供类似文件读写的服务叫做Resource，或者为Agent提供提示词的模板叫做prompt，MCP Server既可以和Agent跑在同一台机器上
+通过标准输入输出进行通信，也可以被部署在网络上通过HTTP进行通信，这里需要注意的是虽然MCP是为了AI而定制出来的标准
+但实际上MCP本身却和AI模型没有关系，他并不关心Agent用的是哪个模型，MCP只负责帮Agent管理工具、资源和提示词
+
+完整流程:
