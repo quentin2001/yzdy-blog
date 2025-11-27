@@ -1,6 +1,6 @@
 # yzdy-blog
 
-一个简介美观的个人博客 fork from litos
+一个简介美观的个人博客
 
 ## Features
 
@@ -44,8 +44,8 @@ The main configuration is located in `src/config.ts`, which includes site inform
 MIT License
 
 # TODO
-1. 优化Prompt、Agent、MCP等内容
-2. 开始整理coze、n8n、dify的内容
-3. 再整理三个实例（n8n\dify\coze）
-4. 整理RAG相关内容
-5. 整理prompt代码调用样例、Agent代码样例、MCP的代码样例
+🆗1. 优化Prompt、Agent、MCP等内容
+🈚2. 开始整理coze、n8n、dify的内容
+🈚3. 再整理三个实例（n8n\dify\coze）
+🈚4. 整理RAG相关内容
+🈚5. 整理prompt代码调用样例、Agent代码样例、MCP的代码样例

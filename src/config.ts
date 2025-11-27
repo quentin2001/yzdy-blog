@@ -17,7 +17,7 @@ export const SITE: Site = {
   title: 'YZDY',
   description:
     'YZDY is a modern blogging theme built on Astro.js, designed for developers. It supports multiple post layouts, photo displays, project displays, and more, providing an elegant user experience and powerful customization capabilities.',
-  website: 'https://litos.vercel.app/',
+  website: 'https://github.com/quentin2001',
   lang: 'en',
   base: '/',
   author: '卓',
@@ -29,10 +29,10 @@ export const HEADER_LINKS: Link[] = [
     name: '博客',
     url: '/posts',
   },
-  {
-    name: '项目',
-    url: '/projects',
-  },
+  // {
+  //   name: '项目',
+  //   url: '/projects',
+  // },
   {
     name: '标签',
     url: '/tags',
@@ -191,7 +191,8 @@ export const GITHUB_CONFIG: GithubConfig = {
 export const POSTS_CONFIG: PostConfig = {
   title: 'Posts',
   description: 'Posts by Quentin',
-  introduce: '我在这里存放笔记，多是关于AI的，都是我学习及实践的总结；请尽情翻阅',
+  introduce:
+    '对世界充满好奇，边学、边做、边思考。最近沉迷 AI，每天都在探索，这里记录我的学习与实践；随便逛逛，大部分文章底部都有我踩过的坑，希望也能帮到你😄。',
   author: 'Quentin',
   homePageConfig: {
     size: 5,
