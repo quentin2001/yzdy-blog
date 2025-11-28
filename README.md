@@ -45,7 +45,6 @@ MIT License
 
 # TODO
 🆗1. 优化Prompt、Agent、MCP等内容
-🈚2. 开始整理coze、n8n、dify的内容
-🈚3. 再整理三个实例（n8n\dify\coze）
-🈚4. 整理RAG相关内容
-🈚5. 整理prompt代码调用样例、Agent代码样例、MCP的代码样例
+🈚2. 做出来prompt代码调用样例、Agent代码样例、MCP的代码样例，让对这部分的理解更进一步
+🈚3. 整理三个实例n8n、dify、coze各一个
+🈚4. 整理RAG相关内容，并且做出实践内容
