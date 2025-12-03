@@ -43,9 +43,4 @@ The main configuration is located in `src/config.ts`, which includes site inform
 
 MIT License
 
-# TODO
-1. 优化Prompt、Agent、MCP等内容
-2. 整理RAG相关内容，并且做出实践内容
-3. 做出来prompt代码调用样例、Agent代码样例、MCP的代码样例，让对这部分的理解更进一步
-4. 整理三个实例n8n、dify、coze各一个，最好是涉及toB场景
-5. 整理一下照片
+
