@@ -310,64 +310,6 @@ export const PhotosList: PhotoData[] = [
         variant: '4x5',
       },
     ],
-  },
-  {
-    title: 'Ningbo · Dongqian Lake',
-    icon: {
-      type: 'emoji',
-      value: '🌅',
-    },
-    description: 'Cycling around Dongqian Lake. Although I got leg cramps a few times, the scenery was beautiful.',
-    date: '2025-03-01',
-    travel: '',
-    photos: [
-      {
-        src: '/photos/dqh1.webp',
-        alt: 'Ningbo · Dongqian Lake',
-        width: 1080,
-        height: 1358,
-        variant: '4x5',
-      },
-      {
-        src: '/photos/dqh2.jpg',
-        alt: 'Ningbo · Dongqian Lake',
-        width: 1080,
-        height: 1080,
-        variant: '1x1',
-      },
-      {
-        src: '/photos/dqh3.jpg',
-        alt: 'Ningbo · Dongqian Lake',
-        width: 1440,
-        height: 1080,
-        variant: '4x3',
-      },
-    ],
-  },
-  {
-    title: 'Ningbo · Zhoushan',
-    icon: {
-      type: 'emoji',
-      value: '🌉',
-    },
-    description: '',
-    date: '2024-09-07',
-    travel: '',
-    photos: [
-      {
-        src: '/photos/zs1.webp',
-        alt: 'Ningbo · Zhoushan',
-        width: 1210,
-        height: 908,
-        variant: '4x3',
-      },
-      {
-        src: '/photos/zs2.webp',
-        alt: 'Ningbo · Zhoushan',
-        width: 1080,
-        height: 810,
-        variant: '4x3',
-      },
-    ],
-  },
+  }
+  
 ]
