@@ -1,8 +1,8 @@
 import type {
+  AnalyticsConfig,
   CommentConfig,
   GithubConfig,
   Link,
-  PhotoData,
   PhotosConfig,
   PostConfig,
   ProjectConfig,
@@ -22,6 +22,7 @@ export const SITE: Site = {
   base: '/',
   author: '卓',
   ogImage: '/og-image.webp',
+  transition: false,
 }
 
 export const HEADER_LINKS: Link[] = [
@@ -256,60 +257,13 @@ export const PHOTOS_CONFIG: PhotosConfig = {
   introduce: '这里是我的摄影作品，它们记录着我的生活.',
 }
 
-export const PhotosList: PhotoData[] = [
-  {
-    title: '我的猫咪',
-    icon: {
-      type: 'emoji',
-      value: '🌠',
-    },
-    description: 'So kawaii (*^ω^*)',
-    date: '2025-05-21',
-    travel: '',
-    photos: [
-      {
-        src: '/photos/cats/cat1.webp',
-        alt: 'My Adorable Cat',
-        width: 400,
-        height: 600,
-        variant: '4x5',
-      },
-      {
-        src: '/photos/cats/cat2.webp',
-        alt: 'My Adorable Cat',
-        width: 1080,
-        height: 810,
-        variant: '4x5',
-      },
-      {
-        src: '/photos/cats/cat3.webp',
-        alt: 'My Adorable Cat',
-        width: 1080,
-        height: 810,
-        variant: '4x5',
-      },
-      {
-        src: '/photos/cats/cat4.webp',
-        alt: 'My Adorable Cat',
-        width: 1080,
-        height: 810,
-        variant: '4x5',
-      },
-      {
-        src: '/photos/cats/cat5.webp',
-        alt: 'My Adorable Cat',
-        width: 1080,
-        height: 810,
-        variant: '4x5',
-      },
-      {
-        src: '/photos/cats/cat6.webp',
-        alt: 'My Adorable Cat',
-        width: 1080,
-        height: 810,
-        variant: '4x5',
-      },
-    ],
-  }
-  
-]
+export const ANALYTICS_CONFIG: AnalyticsConfig = {
+  busuanzi: {
+    enabled: true,
+  },
+  umami: {
+    enabled: false,
+    websiteId: 'Your websiteId in umami',
+    serverUrl: 'https://cloud.umami.is/script.js',
+  },
+}
