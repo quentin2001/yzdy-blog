@@ -7,9 +7,10 @@ tags: ['AI', 'Agent', 'LLM', 'Function Calling', 'Prompt', 'MCP']
 recommend: true
 ---
 ### 📘学习资源分享
-- 🔗 [什么是Function Calling与MCP协议？它们为何要这样设计？](https://www.bilibili.com/video/BV1qTYizcEN3/?share_source=copy_web&vd_source=5f5352239ee1344ae20e066b19048d68)
-- 📘 [OpenAI Dev Docs](https://platform.openai.com/docs) — 开发者参考文档
-
+- 🔗 [【10分钟讲清楚 Prompt, Agent, MCP 是什么】](https://www.bilibili.com/video/BV1aeLqzUE6L/?share_source=copy_web&vd_source=5f5352239ee1344ae20e066b19048d68)
+- 🔗💗 [什么是Function Calling与MCP协议？它们为何要这样设计？](https://www.bilibili.com/video/BV1qTYizcEN3/?share_source=copy_web&vd_source=5f5352239ee1344ae20e066b19048d68)
+- 🔗💗 [Function Calling 与 MCP 协议｜深究 MCP 协议的设计，密码：4892@u29](https://oigi8odzc5w.feishu.cn/wiki/LWqEwXNkBibT0ykrbI0cvptBnAf)
+- 🔗 [MCP是怎么对接大模型的？抓取AI提示词，拆解MCP的底层原理](https://www.bilibili.com/video/BV1P3XTYPEJm/?share_source=copy_web&vd_source=5f5352239ee1344ae20e066b19048d68)
 
 ### 贯穿全文的🌰
 
@@ -216,7 +217,7 @@ Prompt 分为 **System Prompt**（系统预设）和 **User Prompt**（聊天内
 
 早期 Agent（如 AutoGPT）通过将工具的 **自然语言描述** 和调用规则（例如：“如果你想调用 XXX 工具，请返回 - 我要调用 + 工具名 + 参数”）写入 System Prompt，然后发送给 LLM。
 
-**Prompt 机制的局限性**：LLM 本质是概率模型，容易出现忘记格式、缺少字段、JSON 不合法等问题。这迫使 Agent 必须写大量的“重试逻辑”来检查和修正格式。
+**Prompt 机制的局限性：** LLM 本质是概率模型，容易出现忘记格式、缺少字段、JSON 不合法等问题。这迫使 Agent 必须写大量的“重试逻辑”来检查和修正格式。
 
 ### 2. Function Calling：标准化的工具调用方式
 
@@ -237,7 +238,7 @@ Function Calling 解决了早期 Agent 依赖自然语言描述工具所带来�
 4.  工具结果返回给程序，程序发起第二次调用，将结果带给大模型。
 5.  大模型根据工具结果给出最终回复。
 
-**LLM 返回的结构化指令示例**：
+**LLM 返回的结构化指令示例：** 
 
 ```json
 {
@@ -272,22 +273,36 @@ Function Calling 解决了 **LLM ↔ Agent** 的通信问题，而 **MCP (Model 
 
 ### 1. MCP 的概念与目标
 
-- **定义：** MCP 是一个通信协议，专门用来规范 Agent（MCP Client）和 Tools 服务（MCP Server）之间的交互。
-- **角色分工**：
+- **定义：** MCP 是一个通信协议，专门用来规范 Agent（MCP Client）和 Tools 服务（MCP Server）之间的交互。下面是Anthropic的官方定义：
+  - MCP is an open protocol that standardizes how applications provide context to large language models (LLMs). Think of MCP like a USB-C port for AI applications. Just as USB-C provides a standardized way to connect your devices to various peripherals and accessories, MCP provides a standardized way to connect AI models to different data sources and tools. MCP enables you build agents and complex workflows on top of LLMs and connects your models with the world.
+  - MCP 是一个开放协议，用于标准化应用程序向大语言模型（LLM）提供上下文的方式。你可以把 MCP 想象成 AI 应用的 USB-C 接口——正如 USB-C 提供了一种将设备连接到各种外设和配件的标准化方式一样，MCP 提供了一种将 AI 模型连接到不同数据源和工具的标准化方式。借助 MCP，你可以在 LLM 之上构建智能体和复杂工作流，并将你的模型与外部世界相连接。
+  - 如何理解：
+    - 应用程序：集成了 LLM 的具体应用。包括各家大模型的在线对话网站、集成了大模型的IDE（如 Claude desktop）、各种 Agent（比如 Cursor 就是一个 Agent）、以及其他接入了大模型的普通应用。
+    - 上下文：指的是模型在决策时可访问的所有信息，如当前用户输入、历史对话信息、外部工具（tool）信息、外部数据源（resource）信息、提示词（prompt）信息等等（这里重点只讲工具）。
+### 2. MCP架构
+  MCP遵循客户端-服务器架构，其中 MCP Host——Claude Code 或 Claude Desktop 等AI应用程序——与一个或多个MCP Server 建立连接。MCP 主机通过为每个 MCP Server 创建一个 MCP Client 来实现这一目标。每个 MCP Client 都与相应的 MCP Server 保持专用的一对一连接。MCP架构的主要组成者是：
+  - MCP Host：协调和管理一个或多个 MCP Server 的人工智能应用程序
+  - MCP Client：一个组件，用于维护与 MCP 服务器的连接，并从 MCP 服务器获取上下文，供 MCP 主机使用
+  - MCP Server：一个为 MCP Client 提供上下文的程序
+  例如：Visual Studio Code 充当 MCP 主机。当 Visual Studio Code 建立与MCP服务器（如Sentry MCP服务器）的连接时，Visual Studio Code 运行时实例化了维护与Sentry MCP服务器连接的MCP客户端对象。当Visual Studio Code 随后连接到另一个MCP服务器时，例如本地文件系统服务器，Visual Studio Code 运行时实例化一个额外的MCP客户端对象来维护此连接，从而保持MCP客户端与MCP服务器的一对一关系。
+![MCP架构](assets/mcpstructure.png)
+- **角色分工：** 
   - **Agent (MCP Client)：** 项目经理，负责编排、转达和执行。
   - **MCP Server (工具服务)：** 外包工具团队，提供实际能力。
-- **MCP Server 提供的内容**：可以提供函数调用的形式（Tool），类似文件读写的服务（Resource），或者提示词模板（Prompt）。
-- **优势**：MCP 统一了 Agent 与外部世界的能力接口。它带来的优势包括工具复用、统一格式、工具与 Agent 彻底解耦、跨平台以及模型无关性。
+- **MCP Server 提供的内容：** 可以提供函数调用的形式（Tool），类似文件读写的服务（Resource），或者提示词模板（Prompt）。
+- **优势：** MCP 统一了 Agent 与外部世界的能力接口。它带来的优势包括工具复用、统一格式、工具与 Agent 彻底解耦、跨平台以及模型无关性。
+  - 解决了工具介入的冗余开发问题：对于同一个功能可能对于多个大模型有多个实现，你需要做多套工具才行
+  - 解决了工具复用难的问题：环境问题导致copy的代码不一定能用，很多工具也并非会提供给你源码，跨语言的代码copy了也没法用
 
-### 2. Function Calling 和 MCP 的互补关系
+### 3. Function Calling 和 MCP 的互补关系
 
 Function Calling 和 MCP 是不同层面上的 **互补关系**，不存在取代。
 
 - **Function Calling：** 是 **LLM 内部** 的输出机制，表达调用意图。
 - **MCP：** 是 **LLM 外部** Agent 与工具之间的通信标准。
-- **协同方式**：Agent 会将 MCP 工具的标准化定义转换为 LLM 可以理解的 Function Calling Schema 喂给 LLM。LLM 利用 Function Calling 发出指令，Agent 再利用 MCP 执行指令。
+- **协同方式：** Agent 会将 MCP 工具的标准化定义转换为 LLM 可以理解的 Function Calling Schema 喂给 LLM。LLM 利用 Function Calling 发出指令，Agent 再利用 MCP 执行指令。
 
-**Agent (MCP Client) 执行 MCP 调用示例**：
+**Agent (MCP Client) 执行 MCP 调用示例：** 
 
 ```python
 # Agent (MCP Client) 执行代码片段
@@ -308,7 +323,7 @@ weather_data = mcp_client.call_tool(
 
 我们通过一个完整的流程，来理解所有组件是如何协作的：
 ![示例图片](assets/ps.png)
-**逐步对应拆解：**
+**逐步对应拆解：** 
 
 1. 我听说女朋友肚子疼，于是问AI agent或者说MCP client, 我女朋友肚子疼应该怎么办？
 2. Agent把问题包装在user prompt中，然后agent通过MCP协议从MCP server里面获取所有tool的信息
@@ -357,9 +372,9 @@ $$Agent = LLM (Brain) + Planning + Memory + Tools$$
 
 **A：System Prompt 每次对话都会传入，并且消耗 Token。**
 
-- **传输时机**：System Prompt（系统预设的规则和角色）和 User Prompt（用户聊天内容）会一起打包发送给 AI 模型。
-- **Token 消耗**：它们都属于上下文，会消耗 Token。
-- **包含内容**：System Prompt 用来设定模型的角色、行为边界和规则。在 Function Calling 出现前，它也会包含工具的自然语言描述。
+- **传输时机：** System Prompt（系统预设的规则和角色）和 User Prompt（用户聊天内容）会一起打包发送给 AI 模型。
+- **Token 消耗：** 它们都属于上下文，会消耗 Token。
+- **包含内容：** System Prompt 用来设定模型的角色、行为边界和规则。在 Function Calling 出现前，它也会包含工具的自然语言描述。
 
 ### Q3：如何解决工具过多导致上下文超限的问题？
 
@@ -367,9 +382,9 @@ $$Agent = LLM (Brain) + Planning + Memory + Tools$$
 
 现代 Agent 系统采用多种优化策略：
 
-1.  **按需注入（On-Demand Injection）**：Agent 会根据用户的任务意图（例如提到“浏览网页”），只加载相关的少量工具。
-2.  **向量检索选择（Vector-Based Tool Retrieval）**：将所有工具描述向量化，当用户提出需求时，Agent 检索出 Top-K（通常 3~10 个）最相关的工具注入模型。
-3.  **结构化字段传入**：在许多主流 API 中，Function/Tool Calling 的 Schema 是一个独立字段，不以系统提示词形式写入 Prompt，模型内部使用结构化约束解析调用，减少对上下文容量的压力。
+1.  **按需注入（On-Demand Injection）：** Agent 会根据用户的任务意图（例如提到“浏览网页”），只加载相关的少量工具。
+2.  **向量检索选择（Vector-Based Tool Retrieval）：** 将所有工具描述向量化，当用户提出需求时，Agent 检索出 Top-K（通常 3~10 个）最相关的工具注入模型。
+3.  **结构化字段传入：** 在许多主流 API 中，Function/Tool Calling 的 Schema 是一个独立字段，不以系统提示词形式写入 Prompt，模型内部使用结构化约束解析调用，减少对上下文容量的压力。
 
 ### Q4：Function Calling (函数调用) 与 MCP 是什么关系？谁取代了谁？
 
