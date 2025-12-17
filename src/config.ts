@@ -193,7 +193,7 @@ export const POSTS_CONFIG: PostConfig = {
   title: 'Posts',
   description: 'Posts by Quentin',
   introduce:
-    '对世界充满好奇，边学、边做、边思考。最近沉迷 AI，每天都在探索，这里记录我的学习与实践；随便逛逛，大部分文章底部都有我踩过的坑，希望也能帮到你😄。',
+    '对世界充满好奇，边学、边做、边思考。最近沉迷 AI，每天都在探索，这里记录我的学习与实践；随便逛逛，大部分文章底部都有我踩过的坑，希望也能帮到你😄',
   author: 'Quentin',
   homePageConfig: {
     size: 5,
@@ -254,7 +254,7 @@ export const PROJECTS_CONFIG: ProjectConfig = {
 export const PHOTOS_CONFIG: PhotosConfig = {
   title: 'Photos',
   description: 'Here I will record some photos taken in daily life.',
-  introduce: '这里是我的摄影作品，它们记录着我的生活.',
+  introduce: '这里是我的摄影作品，它们记录着我的生活',
 }
 
 export const ANALYTICS_CONFIG: AnalyticsConfig = {
