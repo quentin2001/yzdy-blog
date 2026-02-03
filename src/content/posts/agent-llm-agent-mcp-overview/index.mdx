@@ -1,16 +1,20 @@
 ---
-title: 🌟一文通 LLM、Agent、Prompt、Function Calling、MCP
-description: 系统梳理 LLM、Prompt、Function Calling 到 MCP 的演进关系，带你理解 Agent VS LLM 实现从“说”到“做”的闭环。
-pubDate: 2025-11-27
+title: 🌟一文 LLM、Agent、Prompt、Function Calling、MCP、Skills
+description: 系统梳理演进关系。💥新加入Skills内容
+pubDate: 2026-02-03
 cover: assets/cover.png
-tags: ['AI', 'Agent', 'LLM', 'Function Calling', 'Prompt', 'MCP']
+tags: ['AI', 'Agent', 'LLM', 'Function Calling', 'Prompt', 'MCP', 'Skills']
 recommend: true
 ---
+
 ### 📘学习资源分享
+
 - 🔗 [【10分钟讲清楚 Prompt, Agent, MCP 是什么】](https://www.bilibili.com/video/BV1aeLqzUE6L/?share_source=copy_web&vd_source=5f5352239ee1344ae20e066b19048d68)
 - 🔗💗 [什么是Function Calling与MCP协议？它们为何要这样设计？](https://www.bilibili.com/video/BV1qTYizcEN3/?share_source=copy_web&vd_source=5f5352239ee1344ae20e066b19048d68)
 - 🔗💗 [Function Calling 与 MCP 协议｜深究 MCP 协议的设计，密码：4892@u29](https://oigi8odzc5w.feishu.cn/wiki/LWqEwXNkBibT0ykrbI0cvptBnAf)
 - 🔗 [MCP是怎么对接大模型的？抓取AI提示词，拆解MCP的底层原理](https://www.bilibili.com/video/BV1P3XTYPEJm/?share_source=copy_web&vd_source=5f5352239ee1344ae20e066b19048d68)
+- 🔗 [手把手彻底学会 Agent Skills！【小白教程】](https://www.bilibili.com/video/BV1G3FNznEiS/?share_source=copy_web&vd_source=5f5352239ee1344ae20e066b19048d68)
+- 🔗 [什么是大模型Skill 10分钟弄懂](https://www.bilibili.com/video/BV1dz6oBWEWx/?share_source=copy_web&vd_source=5f5352239ee1344ae20e066b19048d68)
 
 ### 贯穿全文的🌰
 
@@ -198,7 +202,7 @@ Function Calling 解决了早期 Agent 依赖自然语言描述工具所带来�
 4.  工具结果返回给程序，程序发起第二次调用，将结果带给大模型。
 5.  大模型根据工具结果给出最终回复。
 
-**LLM 返回的结构化指令示例：** 
+**LLM 返回的结构化指令示例：**
 
 ```json
 {
@@ -239,14 +243,17 @@ Function Calling 解决了 **LLM ↔ Agent** 的通信问题，而 **MCP (Model 
   - 如何理解：
     - 应用程序：集成了 LLM 的具体应用。包括各家大模型的在线对话网站、集成了大模型的IDE（如 Claude desktop）、各种 Agent（比如 Cursor 就是一个 Agent）、以及其他接入了大模型的普通应用。
     - 上下文：指的是模型在决策时可访问的所有信息，如当前用户输入、历史对话信息、外部工具（tool）信息、外部数据源（resource）信息、提示词（prompt）信息等等（这里重点只讲工具）。
+
 ### 2. MCP架构
-  MCP遵循客户端-服务器架构，其中 MCP Host——Claude Code 或 Claude Desktop 等AI应用程序——与一个或多个MCP Server 建立连接。MCP 主机通过为每个 MCP Server 创建一个 MCP Client 来实现这一目标。每个 MCP Client 都与相应的 MCP Server 保持专用的一对一连接。MCP架构的主要组成者是：
-  - MCP Host：协调和管理一个或多个 MCP Server 的人工智能应用程序
-  - MCP Client：一个组件，用于维护与 MCP 服务器的连接，并从 MCP 服务器获取上下文，供 MCP 主机使用
-  - MCP Server：一个为 MCP Client 提供上下文的程序
+
+MCP遵循客户端-服务器架构，其中 MCP Host——Claude Code 或 Claude Desktop 等AI应用程序——与一个或多个MCP Server 建立连接。MCP 主机通过为每个 MCP Server 创建一个 MCP Client 来实现这一目标。每个 MCP Client 都与相应的 MCP Server 保持专用的一对一连接。MCP架构的主要组成者是：
+
+- MCP Host：协调和管理一个或多个 MCP Server 的人工智能应用程序
+- MCP Client：一个组件，用于维护与 MCP 服务器的连接，并从 MCP 服务器获取上下文，供 MCP 主机使用
+- MCP Server：一个为 MCP Client 提供上下文的程序
   例如：Visual Studio Code 充当 MCP 主机。当 Visual Studio Code 建立与MCP服务器（如Sentry MCP服务器）的连接时，Visual Studio Code 运行时实例化了维护与Sentry MCP服务器连接的MCP客户端对象。当Visual Studio Code 随后连接到另一个MCP服务器时，例如本地文件系统服务器，Visual Studio Code 运行时实例化一个额外的MCP客户端对象来维护此连接，从而保持MCP客户端与MCP服务器的一对一关系。
-![MCP架构](assets/mcpstructure.png)
-- **角色分工：** 
+  ![MCP架构](assets/mcpstructure.png)
+- **角色分工：**
   - **Agent (MCP Client)：** 项目经理，负责编排、转达和执行。
   - **MCP Server (工具服务)：** 外包工具团队，提供实际能力。
 - **MCP Server 提供的内容：** 可以提供函数调用的形式（Tool），类似文件读写的服务（Resource），或者提示词模板（Prompt）。
@@ -262,7 +269,7 @@ Function Calling 和 MCP 是不同层面上的 **互补关系**，不存在取�
 - **MCP：** 是 **LLM 外部** Agent 与工具之间的通信标准。
 - **协同方式：** Agent 会将 MCP 工具的标准化定义转换为 LLM 可以理解的 Function Calling Schema 喂给 LLM。LLM 利用 Function Calling 发出指令，Agent 再利用 MCP 执行指令。
 
-**Agent (MCP Client) 执行 MCP 调用示例：** 
+**Agent (MCP Client) 执行 MCP 调用示例：**
 
 ```python
 # Agent (MCP Client) 执行代码片段
@@ -283,7 +290,7 @@ weather_data = mcp_client.call_tool(
 
 我们通过一个完整的流程，来理解所有组件是如何协作的：
 ![示例图片](assets/ps.png)
-**逐步对应拆解：** 
+**逐步对应拆解：**
 
 1. 我听说女朋友肚子疼，于是问AI agent或者说MCP client, 我女朋友肚子疼应该怎么办？
 2. Agent把问题包装在user prompt中，然后agent通过MCP协议从MCP server里面获取所有tool的信息
@@ -311,7 +318,58 @@ weather_data = mcp_client.call_tool(
 5. 项目经理自己去调用外包团队的接口（MCP Server），拿到结果后再给顾问复核。
 6. 顾问确认结果满足需求后，项目经理把最终成果交给用户。
 
----
+## 🔨 第六部分：Skills来了
+
+Skills是对能力的封装编排，且可以对能力所需要的资源进行管理
+
+难免会和MCP做对比，MCP Tools像是能力而Skills是方法是经验
+
+Skills的出现给我一种自然语言编程的感觉，像是被武装的prompt，也像是一个特殊的工作流
+
+### 一个Skill由哪几个部分组成？
+
+根据Anthropic的定义一个完整的Skill结构包含三个核心方面，物理形式上表现为一个包含SKILL.md的目录
+
+1. 元数据metadata：用于让Agent判断在什么时候调用
+
+- Name：技能唯一标识符
+- Description：精简自然语言描述，告诉模型这个技能是干什么的
+
+2. 程序性知识procedural Knowledge：类似于SOP，即具体的SKILL.md内容
+
+- 步骤指引：详细的自然语言指令，指导Agent第一步做什么、第二步做什么
+- 规则约束：必须遵守的限制
+- 示例样例：展示输入和理想输出的例子，帮助模型对齐预期
+
+3. 资源与工具
+
+- 模板Templates：预设输出格式（如markdown报告模板、代码框架）
+- 脚本Scripts：供Agent调用的Python脚本或SQL查询文件
+- 参考文档Reference：特定领域的知识文档（如API文档、品牌手册、用户手册等）有点像RAG知识库的感觉
+
+### Skill的效能
+
+1. 上下文优化与成本控制
+
+- 渐进式披露三层结构：元信息->指令层->资源层。Skill始终加载元数据，在选择好了具体要用的Skill之后再按需加载指令，当指令涉及到某些资源的时候再按需加载资源
+- 减少干扰：上下文越长模型越容易迷失，Skill机制确保了在执行特定任务时Context中只有最相关指令
+- 节省Token：对于长对话或复杂任务，不重复发送无关Prompt指令能直接降低API调用成本
+
+2. 行业标准化与质量保证
+
+- 固化最佳实践SOP：将行业最佳实践显化为Skill，例如一个代码审查Skill可以强制要求先检查安全性再检查性能最后检查风格
+- 减少幻觉：Skill通常包含样本示例，让模型在受控范围内发挥
+- 确定性提升：通过在Skill添加约束可以答复提高输出格式的一致性
+
+3. 工程化与可维护性
+
+- 模块化解耦：相较于拖拉拽工作流牵一发动全身，Skill实现了解耦，可以将能力单独编排维护互不影响
+- 便于版本管理：Skill是一个纯文本文件，非常适合Git来做版本控制
+
+4. 可移植性与复用性：
+
+- 即插即用：对于重复需求可以较好的迁移与复用
+- 生态系统：为Agent的发展打下基础
 
 ## ❓ Q&A 整合
 
