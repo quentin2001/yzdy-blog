@@ -30,18 +30,18 @@ if (hasPinnedPosts) {
       <!-- 左侧文本区 -->
       <div class="max-w-2xl">
         <h1 class="flex flex-col gap-2">
-          <span class="text-4xl sm:text-5xl tracking-tight">杨卓's blog</span>
+          <span class="text-4xl sm:text-5xl tracking-tight">YZDY's blog</span>
           <span class="text-muted-foreground font-light text-xl sm:text-2xl block tracking-wide text-balance">ENFJ</span>
         </h1>
         <div class="pro text-muted-foreground text-pretty mt-4">
           <p>
-            Hi, I'm Quentin —
+            Hi, I'm YZDY —
             充满好奇、喜欢摄影、痴迷于AI。在这里，我分享自己在学习AI和探索AI应用过程中所做的学习笔记、项目记录，以及思维碎片。欢迎来到我的空间，或许你会发现一些能点燃你好奇心的东西。
           </p>
           <p>
-            如果您对我的项目或文章有任何问题或建议，欢迎联系我。或者单纯想和我聊聊~ 您可以通过
-            <a href="mailto:yzdyonly@gmail.com" target="_blank" rel="nofollow noreferrer">yzdyonly@gmail.com</a>或
-            <a href="https://juejin.cn/user/1416608279436087" target="_blank" rel="nofollow noreferrer">@sdguy</a>
+            如果您对我的项目或文章有任何问题或建议，欢迎联系我。或者单纯想和我聊聊也是可以的~ 您可以通过
+            <a href="mailto:yzdyonly@gmail.com" target="_blank" rel="nofollow noreferrer">yzdyonly@gmail.com</a>
+            联系到我
           </p>
         </div>
       </div>
@@ -69,13 +69,27 @@ if (hasPinnedPosts) {
         </>
       )
     }
+    {
+      SKILLS_ENABLED && SKILLS_DATA.length > 0 && (
+        <>
+          <SectionDivider />
+          <div class="py-8 pb-10 px-6 max-md:px-6">
+            <div class="px-2 max-md:px-0">
+              <h2 class="text-2xl sm:text-3xl tracking-tight">Skills</h2>
+              <p class="text-muted-foreground mb-6 mt-1">Not just skills, but tools:</p>
+            </div>
+            <SkillsShowcase skillsData={SKILLS_DATA} />
+          </div>
+        </>
+      )
+    }
     <SectionDivider />
 
     <div class="py-8 pb-10 px-6 sm:px-8">
-      <h2 class="text-2xl sm:text-3xl tracking-tight">博客</h2>
+      <h2 class="text-2xl sm:text-3xl tracking-tight">Posts</h2>
       <p class="text-muted-foreground mb-6 mt-1">
-        {hasPinnedPosts ? `置顶` : '最近的'}
-        {showPosts.length} 博客, 值得一看~
+        {hasPinnedPosts ? `Pinned` : 'Recent'}
+        {showPosts.length} posts worth reading~
       </p>
       <List posts={showPosts} {type} coverLayout={POSTS_CONFIG.homePageConfig?.coverLayout} />
     </div>

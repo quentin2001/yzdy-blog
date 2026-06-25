@@ -16,6 +16,10 @@ const ogImage = new URL(image || SITE.ogImage, Astro.url)
 
 <script is:inline src="/js/theme.js"></script>
 
+<script is:inline define:vars={{ themeAnimation: SITE.themeAnimation }}>
+  window.__themeAnimation = themeAnimation
+</script>
+
 <!-- 页面内SEO  On-Page SEO -->
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -114,6 +118,11 @@ const ogImage = new URL(image || SITE.ogImage, Astro.url)
         }
       })
     </script>
+  )
+}
+{
+  ANALYTICS_CONFIG.vercount?.enabled && (
+    <script is:inline defer src="https://events.vercount.one/js" data-astro-rerun></script>
   )
 }
 {

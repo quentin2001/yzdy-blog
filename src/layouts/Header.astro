@@ -16,11 +16,12 @@ import favicon from '../../public/favicon.svg'
       <a href="/" class="pointer-events-auto select-none" transition:persist>
         <Image
           src={favicon}
-          width={32}
-          height={32}
+          width={1000}
+          height={1000}
           alt="Logo"
-          class="w-8 h-8 border-2 border-transparent dark:border-border"
+          class="w-8 h-8"
           densities={[1, 2]}
+          loading="eager"
         />
       </a>
       <div class="flex gap-1">

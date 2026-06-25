@@ -20,19 +20,30 @@ const projects = await getAllProjects()
     <div class="grid grid-cols-1 fade-up">
       {
         projects.map((project, index) => {
+          let githubRepo = undefined
+          if (project.data.githubUrl) {
+            try {
+              const urlObj = new URL(project.data.githubUrl)
+              if (urlObj.hostname.includes('github.com')) {
+                githubRepo = urlObj.pathname.replace(/^\/|\/$/g, '')
+              }
+            } catch (e) {}
+          }
+
           return (
             <div>
               <div class="group relative hover:bg-muted/30 dark:hover:bg-muted/30 transition-colors duration-300 px-6 sm:px-8 py-4 ">
                 <div class="absolute right-8 top-4 hidden sm:block">
                   {project.data.type == 'icon' && <span class={cn('size-10', project.data.icon)} />}
-                  {project.data.type == 'image' && project.data?.icon && (
+                  {project.data.type == 'image' && project.data?.icon && typeof project.data.icon !== 'string' && (
                     <Image
-                      src={project.data?.icon}
+                      src={project.data.icon}
                       alt="icon"
                       width={40}
                       height={40}
                       class={cn(project.data.imageClass)}
                       densities={[1, 2]}
+                      loading="lazy"
                     />
                   )}
                 </div>
@@ -47,21 +58,21 @@ const projects = await getAllProjects()
                 <div class="flex flex-col sm:flex-row gap-4 sm:gap-0 items-start sm:items-center justify-between sm:h-14">
                   <div class="flex gap-4 ">
                     <div class="flex items-center py-1.5 gap-3">
-                      {project.data.star && (
+                      {project.data.star != null && (
                         <>
                           <span class="text-xs uppercase tracking-wide font-medium text-muted-foreground">Stars</span>
                           <span class="font-semibold text-lg tracking-wider">
-                            <NumberTicker play value={project.data.star} client:load />
+                            <NumberTicker play value={project.data.star} client:load githubRepo={githubRepo} githubType="stars" />
                           </span>
                         </>
                       )}
                     </div>
                     <div class="flex items-center py-1.5 gap-3">
-                      {project.data.fork && (
+                      {project.data.fork != null && (
                         <>
                           <span class="text-xs uppercase tracking-wide font-medium text-muted-foreground">Forks</span>
                           <span class="font-semibold text-lg tracking-wider">
-                            <NumberTicker play value={project.data.fork} client:load />
+                            <NumberTicker play value={project.data.fork} client:load githubRepo={githubRepo} githubType="forks" />
                           </span>
                         </>
                       )}
