@@ -10,6 +10,7 @@ import type { ImageMetadata } from 'astro'
  * @property {string} website - 网站地址 / Website address
  * @property {string} ogImage - OGP 图片地址 / OGP image address
  * @property {boolean} transition - 是否启用过渡动画 / Whether to enable transition animation
+ * @property {boolean} themeAnimation - 是否启用主题动画 / Whether to enable theme animation
  */
 export type Site = {
   title: string
@@ -20,6 +21,7 @@ export type Site = {
   website: string
   ogImage: string
   transition: boolean
+  themeAnimation: boolean
 }
 
 /**
@@ -88,6 +90,7 @@ export interface PostConfig {
   nextPostText: string
   prevPostText: string
   recommendText: string
+  wordCountView: boolean
 }
 
 /**
@@ -105,6 +108,7 @@ export interface TagsConfig {
 export interface Skill {
   icon: string
   name: string
+  url?: string
 }
 
 export interface SkillData {
@@ -183,9 +187,10 @@ export type IconType = 'icon' | 'image'
  * - 1x1: 正方形比例
  * - 4x5: 标准拍立得比例
  * - 4x3: 横向比例
+ * - 3x4: 竖向比例
  * - 9x16: 竖向比例
  */
-export type PolaroidVariant = '1x1' | '4x5' | '4x3' | '9x16'
+export type PolaroidVariant = '1x1' | '4x5' | '4x3' | '3x4' | '9x16'
 
 /**
  * 图片配置接口 / Photo configuration interface
@@ -254,6 +259,9 @@ export interface GitalkConfig {
 
 export interface AnalyticsConfig {
   busuanzi?: {
+    enabled: boolean
+  }
+  vercount?: {
     enabled: boolean
   }
   umami?: {

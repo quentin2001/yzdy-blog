@@ -1,5 +1,6 @@
 import { glob } from 'astro/loaders'
-import { defineCollection, z } from 'astro:content'
+import { defineCollection } from 'astro:content'
+import { z } from 'astro/zod'
 import { POSTS_CONFIG } from '~/config'
 import type { CoverLayout, PostType } from '~/types'
 
@@ -44,7 +45,7 @@ const projects = defineCollection({
       githubUrl: z.string(),
       website: z.string(),
       type: z.string(),
-      icon: image().optional(),
+      icon: z.union([image(), z.string()]).optional(),
       imageClass: z.string().optional(),
       star: z.number(),
       fork: z.number(),

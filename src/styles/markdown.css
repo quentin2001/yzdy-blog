@@ -147,7 +147,7 @@
   }
 
   /* 链接样式 */
-  & a {
+  & a:not(.card-github) {
     color: var(--color-link);
     text-decoration: none;
     border-block-end: 1px solid var(--color-border-light);
@@ -174,7 +174,7 @@
   & li {
     margin-block: 0.5em;
     position: relative;
-    padding-inline-start: 1.75em;
+    padding-inline-start: 1.25em;
   }
 
   /* 有序列表 */
