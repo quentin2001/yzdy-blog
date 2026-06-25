@@ -1,12 +1,11 @@
 import type { ImageMetadata } from 'astro'
 import type { Photo, PhotoData, PolaroidVariant } from '~/types'
 
-// Auto-import all images under the photos directory.
-// Using ?w=600&format=webp triggers Astro's image optimization (sharp) at import time,
-// generating resized WebP versions instead of serving raw multi-MB originals.
+// Auto-import optimized WebP images from the pre-compressed directory.
+// Run `node scripts/optimize-photos.mjs` to regenerate after adding new photos.
 const photoModules = import.meta.glob<{ default: ImageMetadata }>(
-  '../assets/photos/**/*.{webp,jpg,jpeg,png}',
-  { eager: true, query: { w: 600, format: 'webp' } },
+  '../assets/photos-optimized/**/*.webp',
+  { eager: true },
 )
 
 /**
