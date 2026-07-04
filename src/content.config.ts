@@ -53,4 +53,17 @@ const projects = defineCollection({
     }),
 })
 
-export const collections = { posts, projects }
+const slides = defineCollection({
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: './src/content/slides',
+  }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    pubDate: z.date().default(() => new Date()),
+    draft: z.boolean().default(false),
+  }),
+})
+
+export const collections = { posts, projects, slides }

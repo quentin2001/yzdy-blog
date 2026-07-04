@@ -1,0 +1,45 @@
+---
+import { getCollection, render } from 'astro:content'
+import SlidePlayer from '~/components/slides/SlidePlayer'
+import '~/styles/global.css'
+
+export async function getStaticPaths() {
+  const slides = await getCollection('slides')
+  return slides.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }))
+}
+
+const { entry } = Astro.props
+const { Content } = await render(entry)
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{entry.data.title} - Web Slides</title>
+    <meta name="description" content={entry.data.description || ''} />
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: #0b0f19;
+      }
+    </style>
+  </head>
+  <body class="bg-[#0b0f19] text-gray-100 antialiased overflow-hidden">
+    <!-- Source HTML parsed by React SlidePlayer client-side -->
+    <div id="slide-source" class="hidden">
+      <Content />
+    </div>
+
+    <!-- The SlidePlayer component loaded client-side -->
+    <SlidePlayer client:load title={entry.data.title} />
+  </body>
+</html>
