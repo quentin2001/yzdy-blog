@@ -207,8 +207,7 @@ export const GITHUB_CONFIG: GithubConfig = {
 export const POSTS_CONFIG: PostConfig = {
   title: 'Posts',
   description: 'Posts by Quentin',
-  introduce:
-    '对世界充满好奇，边学、边做、边思考。最近沉迷 AI，每天都在探索，这里记录我的学习与实践；随便逛逛，大部分文章底部都有我踩过的坑，希望也能帮到你😄',
+  introduce: '对世界充满好奇，边学、边做、边思考。最近沉迷 AI，每天都在探索，欢迎随便逛逛😄',
   author: 'Quentin',
   homePageConfig: {
     size: 5,
