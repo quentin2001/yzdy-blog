@@ -190,7 +190,7 @@ export default function SlidePlayer({ title }: SlidePlayerProps) {
       <div className="w-full h-full flex justify-center items-center px-12 md:px-24 py-16">
         <div 
           key={currentSlide}
-          className="slide-content w-full max-w-4xl flex flex-col justify-center items-center text-center animate-fade-in transition-all duration-300"
+          className="slide-content w-full max-w-7xl flex flex-col justify-center items-center text-center animate-fade-in transition-all duration-300"
           dangerouslySetInnerHTML={{ __html: slides[currentSlide] }}
         />
       </div>
@@ -357,8 +357,11 @@ export default function SlidePlayer({ title }: SlidePlayerProps) {
 
       {/* Styled slide typography injected directly */}
       <style>{`
+        .slide-content .header-anchor {
+          display: none !important;
+        }
         .slide-content h1 {
-          font-size: 3.5rem;
+          font-size: 4.8rem;
           font-weight: 800;
           line-height: 1.25;
           margin-bottom: 2rem;
@@ -366,6 +369,11 @@ export default function SlidePlayer({ title }: SlidePlayerProps) {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           text-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+        }
+        .slide-content h1 .emoji-reset {
+          -webkit-text-fill-color: initial;
+          background: none;
+          text-shadow: none;
         }
         .slide-content h2 {
           font-size: 2.75rem;
