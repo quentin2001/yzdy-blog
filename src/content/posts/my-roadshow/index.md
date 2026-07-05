@@ -1,15 +1,15 @@
 ---
-title: "路演：How I AI? - 回龙观造物所"
+title: "How I AI? - 回龙观造物所"
 description: "从播客开源工具到宠物服务的创客探索，做builder也做influencer"
 pubDate: 2026-07-04
 cover: assets/cover.png
-tags: ['路演', 'AI', 'OPC', 'LLM', 'ASR', '播客']
+tags: ['AI', 'OPC', 'LLM', 'ASR', '播客']
 recommend: true
 ---
 
 # 📢 How I AI?
 
-这次路演我将向大家分享我是如何把 AI 深度织入自己的学习、开发和产品构想中的，以下是我这次路演的主要内容，我将从以下三个方向展开
+这次我将向大家分享我是如何把 AI 深度织入自己的学习、开发和产品构想中的，以下是我这次的主要内容，我将从以下三个方向展开
 
 1. **商业项目：宠物上门喂养小程序**：针对本地宠物上门服务的痛点，设计一个新的智能服务平台。
 2. **开源项目：whisperMe 语音听写**：一个基于ASR-LLM的开源本地播客工具。
@@ -21,7 +21,7 @@ recommend: true
     target="_blank" 
     class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white font-bold rounded-2xl shadow-xl shadow-indigo-500/10 hover:shadow-indigo-500/25 hover:scale-[1.03] transition-all duration-300 no-underline cursor-pointer"
   >
-    <span class="text-xl">🖥️ 开启路演WebSlides</span>
+    <span class="text-xl">🖥️ 开启WebSlides</span>
     <svg class="w-6 h-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
     </svg>
