@@ -12,7 +12,15 @@ async function fetchWithCache<T>(key: string, fetcher: () => Promise<T>, fallbac
     const cached = localStorage.getItem(cacheKey)
     if (cached) {
       const entry: CacheEntry<T> = JSON.parse(cached)
-      if (Date.now() - entry.timestamp < CACHE_DURATION) {
+      if (fallbackValue && typeof fallbackValue === 'object' && entry.data && typeof entry.data === 'object') {
+        const f = fallbackValue as any
+        const e = entry.data as any
+        if ((f.stars !== undefined && f.stars > (e.stars ?? 0)) || (f.forks !== undefined && f.forks > (e.forks ?? 0))) {
+          localStorage.removeItem(cacheKey)
+        } else if (Date.now() - entry.timestamp < CACHE_DURATION) {
+          return entry.data
+        }
+      } else if (Date.now() - entry.timestamp < CACHE_DURATION) {
         return entry.data
       }
       if (!fallbackValue) fallbackValue = entry.data
@@ -40,11 +48,19 @@ export async function getGithubFollowers(username: string): Promise<number | und
   })
 }
 
-export async function getGithubRepoStats(owner: string, repo: string): Promise<{ stars: number; forks: number } | undefined> {
-  return fetchWithCache(`repo_${owner}_${repo}`, async () => {
-    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`)
-    if (!res.ok) throw new Error(res.statusText)
-    const data = await res.json()
-    return { stars: data.stargazers_count, forks: data.forks_count }
-  })
+export async function getGithubRepoStats(
+  owner: string,
+  repo: string,
+  fallbackValue?: { stars: number; forks: number }
+): Promise<{ stars: number; forks: number } | undefined> {
+  return fetchWithCache(
+    `repo_${owner}_${repo}`,
+    async () => {
+      const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`)
+      if (!res.ok) throw new Error(res.statusText)
+      const data = await res.json()
+      return { stars: data.stargazers_count, forks: data.forks_count }
+    },
+    fallbackValue
+  )
 }

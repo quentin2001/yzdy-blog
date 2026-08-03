@@ -44,9 +44,13 @@ export default function NumberTicker({
       } else if (githubRepo && githubType) {
         const parts = githubRepo.split('/')
         if (parts.length === 2) {
-          const stats = await getGithubRepoStats(parts[0], parts[1])
+          const stats = await getGithubRepoStats(parts[0], parts[1], {
+            stars: githubType === 'stars' ? initialValue : 0,
+            forks: githubType === 'forks' ? initialValue : 0,
+          })
           if (isMounted && stats) {
-            setValue(githubType === 'stars' ? stats.stars : stats.forks)
+            const fetchedVal = githubType === 'stars' ? stats.stars : stats.forks
+            setValue(Math.max(initialValue, fetchedVal))
           }
         }
       }

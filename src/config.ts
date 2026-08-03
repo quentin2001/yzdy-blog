@@ -207,7 +207,7 @@ export const GITHUB_CONFIG: GithubConfig = {
 export const POSTS_CONFIG: PostConfig = {
   title: 'Posts',
   description: 'Posts by Quentin',
-  introduce: '对世界充满好奇，边学、边做、边思考。最近沉迷 AI，每天都在探索，欢迎随便逛逛😄',
+  introduce: 'Thoughts, technical notes, and ongoing explorations in AI.',
   author: 'Quentin',
   homePageConfig: {
     size: 5,
@@ -237,15 +237,15 @@ export const POSTS_CONFIG: PostConfig = {
 }
 
 export const COMMENT_CONFIG: CommentConfig = {
-  enabled: false,
+  enabled: true,
   system: 'gitalk',
   gitalk: {
     clientID: import.meta.env.PUBLIC_GITHUB_CLIENT_ID,
     clientSecret: import.meta.env.PUBLIC_GITHUB_CLIENT_SECRET,
-    repo: 'gitalk-comment',
-    owner: 'Dnzzk2',
-    admin: ['Dnzzk2'],
-    language: 'en-US',
+    repo: 'yzdy-blog',
+    owner: 'quentin2001',
+    admin: ['quentin2001'],
+    language: 'zh-CN',
     perPage: 5,
     pagerDirection: 'last',
     createIssueManually: false,
@@ -257,22 +257,25 @@ export const COMMENT_CONFIG: CommentConfig = {
 export const TAGS_CONFIG: TagsConfig = {
   title: 'Tags',
   description: 'All tags of Posts',
-  introduce: '这里是所有博客的tag, 你可以点击来过滤某tag下的博客~',
+  introduce: 'Browse all posts grouped by topics, tech stacks, and tags.',
 }
 
 export const PROJECTS_CONFIG: ProjectConfig = {
   title: 'Projects',
   description: 'The examples of my projects.',
-  introduce: '这里是我的项目，可以看到我做了些什么东西 with AI',
+  introduce: 'Building things with AI, code, and curiosity.',
 }
 
 export const PHOTOS_CONFIG: PhotosConfig = {
   title: 'Photos',
   description: 'Here I will record some photos taken in daily life.',
-  introduce: '这里是我的摄影作品，它们记录着我的生活',
+  introduce: 'Capturing everyday moments, life reflections, and visual snaps.',
 }
 
 export const ANALYTICS_CONFIG: AnalyticsConfig = {
+  vercount: {
+    enabled: true,
+  },
   busuanzi: {
     enabled: true,
   },
